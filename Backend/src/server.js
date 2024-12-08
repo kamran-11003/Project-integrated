@@ -10,8 +10,11 @@ const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1Ijoia2FtcmFuLTAwMyIsImEiOiJjbTQzM3NoOWowNzVi
 const Driver = require('./models/Driver'); // Driver model
 const Ride = require('./models/ride');
 const Earnings = require('./models/Earnings');
+const path = require('path');
 const router = express.Router();
-
+const accountSid = 'ACe1dc2ddf235fcaf9767342ca97b98af3';
+const authToken = '83ec337b897c862197bff256be6bb08c';
+const client = require('twilio')(accountSid, authToken);
 
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
@@ -25,7 +28,6 @@ const RatingRoutes=require('./routes/ratingRouts')
 const feedbackRoutes = require('./routes/feedbackRoutes'); // Import the feedback routes
 const analyticsRoutes=require('./routes/analyticsRouts');
 const disputeRoutes = require('./routes/disputeRoutes');
-
 // Initialize express app
 const app = express();
 const server = http.createServer(app);
@@ -67,7 +69,10 @@ app.use('/api/feedbacks', feedbackRoutes);
 app.use('/api/analytic',analyticsRoutes);
 app.use('/api/activeuser',router);
 app.use('/api/disputes',disputeRoutes);
-
+app.use(express.static(process.env.Public_Dir));
+app.use('*', (req, res) => {
+  res.sendFile(path.join("C:/Users/Kamra/Desktop/WEB PROJECT/Project-integrated/build", 'index.html'));
+});
 const fetchDistance = (pickupLocation, dropOffLocation) => {
   if (!pickupLocation || !dropOffLocation) return Promise.reject('Invalid locations');
   console.log(pickupLocation, dropOffLocation);
@@ -240,6 +245,16 @@ socket.on('requestRide', async (data) => {
 });
 socket.on('notifyArrival', (data) => {
   console.log('Notify Arrival Event:', data);
+  
+client.messages
+.create({
+    from: '+17752889718',
+    to: '+923205491852',
+    body: 'Your Rider has Arrived!'  // Add your message here
+})
+.then(message => console.log(message.sid))
+.catch(error => console.error(error));  // Add error handling if needed
+
   //.to(data.userId)
   io.emit('DriverArrived', {
         message: 'The driver has arrived!',
