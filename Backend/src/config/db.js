@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1);
+    const conn = await mongoose.connect('mongodb://abdulhananch404:duUqZBg0PcZw6g3B@undefined/?replicaSet=atlas-xlc3yl-shard-0&ssl=true&authSource=admin',{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
   }
 };
 
