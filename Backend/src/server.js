@@ -70,8 +70,9 @@ app.use('/api/analytic',analyticsRoutes);
 app.use('/api/activeuser',router);
 app.use('/api/disputes',disputeRoutes);
 app.use(express.static(process.env.Public_Dir));
+
 app.use('*', (req, res) => {
-  res.sendFile(path.join(process.env.path, 'index.html'));
+  res.sendFile(path.join(process.env.Public_Dir, 'index.html'));
 });
 const fetchDistance = (pickupLocation, dropOffLocation) => {
   if (!pickupLocation || !dropOffLocation) return Promise.reject('Invalid locations');
