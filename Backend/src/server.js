@@ -69,11 +69,11 @@ app.use('/api/feedbacks', feedbackRoutes);
 app.use('/api/analytic',analyticsRoutes);
 app.use('/api/activeuser',router);
 app.use('/api/disputes',disputeRoutes);
-app.use(express.static(process.env.Public_Dir));
+app.use(express.static(path.join(__dirname, '../build')));
 
-app.use('*', (req, res) => {
-  const filePath = path.join(process.cwd(), 'build', 'index.html');
-    res.sendFile(filePath);
+// Fallback to serving "index.html" for all unmatched routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 const fetchDistance = (pickupLocation, dropOffLocation) => {
   if (!pickupLocation || !dropOffLocation) return Promise.reject('Invalid locations');
