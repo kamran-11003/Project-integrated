@@ -72,7 +72,7 @@ app.use('/api/disputes',disputeRoutes);
 app.use(express.static(process.env.Public_Dir));
 
 app.use('*', (req, res) => {
-  res.sendFile(path.join(process.env.Public_Dir, 'index.html'));
+  res.sendFilepath.join(__dirname, 'index.html');
 });
 const fetchDistance = (pickupLocation, dropOffLocation) => {
   if (!pickupLocation || !dropOffLocation) return Promise.reject('Invalid locations');
