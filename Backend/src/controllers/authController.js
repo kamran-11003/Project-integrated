@@ -56,7 +56,6 @@ exports.registerUser = async (req, res) => {
 // Login a user
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
   try {
     // Check if user exists
     const user = await User.findOne({ email });
@@ -67,6 +66,8 @@ exports.loginUser = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Invalid credentials" });
     // Generate JWT
+    console.log(isMatched);
+    console.log( process.env.JWT_SECRET);
     const token = jwt.sign(
       {
         id: user._id,
