@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const connectDB = require("./config/db");
 const http = require("http");
 const socketIo = require("socket.io");
+const path = require("path");
 const fetch = require("node-fetch"); // Import fetch for server-side use
 const MAPBOX_ACCESS_TOKEN =
 "pk.eyJ1IjoiYWJkdWxoYW5hbmNoIiwiYSI6ImNtYTg0bjFwaTE1eTAybXNpbnN4ZjhtdDkifQ.OTr8OcuHq7i2ihESOqDMwg";
